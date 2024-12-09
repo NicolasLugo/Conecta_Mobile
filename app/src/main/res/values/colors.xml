@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="primaryColor">#6200EE</color> <!-- Ajusta según tu tema -->
+    <color name="secondaryColor">#03DAC5</color> <!-- Ajusta según tu tema -->
+    <color name="gray">#888888</color> <!-- Ajusta según tu tema -->
+    <color name="receivedColor">#EEEEEE</color> <!-- Gris claro (para mensajes recibidos) -->
+    <color name="borderGray">#BBBBBB</color> <!-- Gris para bordes -->
+    <color name="pressedGray">#DDDDDD</color>
+</resources>

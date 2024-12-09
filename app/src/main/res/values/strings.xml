@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">ConectaMobile</string>
+    <string name="welcome_message">Bienvenido a ConectaMobile</string>
+    <string name="register">Registrar Nuevo Usuario</string>
+    <string name="btnRegister">Registrar</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="logo_description">Logo de la aplicación</string>
+    <string name="username">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="email">Correo</string>
+    <string name="search_contact">Buscar contacto</string>
+    <string name="chat_list">Lista de chats</string>
+    <string name="type_message">Mensaje…</string>
+    <string name="send">Enviar</string>
+    <string name="name">Nombre</string>
+    <string name="save_changes">Salvar</string>
+    <string name="contact_name">Nombre del Contacto</string>
+    <string name="contact_status">En línea</string>
+    <string name="chat_name">Chat con Juan</string>
+    <string name="chat_last_message">Hola, ¿cómo estás?</string>
+    <string name="chat_time">12:45 PM</string>
+    <string name="add_contact">Agregar Contacto</string>
+    <string name="contact_email">Correo del Contacto</string>
+    <string name="edit_profile">Editar Perfil</string>
+    <string name="new_password">Nueva Contraseña</string>
+    <string name="cancel">Cancelar</string>
+    <string name="add">Agregar</string>
+    <string name="save">Guardar</string>
+</resources>
