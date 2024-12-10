@@ -35,10 +35,12 @@ android {
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-analytics")
-    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
+    //implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
+    implementation(libs.org.eclipse.paho.client.mqttv3)
     implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
     implementation("com.google.firebase:firebase-auth:22.1.1")
     implementation("com.google.firebase:firebase-database-ktx:21.0.0")
+    implementation(libs.localbroadcastmanager)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
