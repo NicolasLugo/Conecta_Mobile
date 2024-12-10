@@ -11,10 +11,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/chat_list"
+        android:text="@string/chat_contact"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <SearchView
+        android:id="@+id/lupa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="@string/search_contact"
         android:layout_marginBottom="8dp" />
 
     <TextView
@@ -22,22 +29,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:text="Acá se mostrarán tus chats"
+        android:text="Agrega tu primer contacto ahora!"
         android:gravity="center"
         android:visibility="gone" />
 
     <ListView
-        android:id="@+id/listaChats"
+        android:id="@+id/listaContactos"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnNuevoChat"
+        android:id="@+id/btnNuevoContacto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         app:srcCompat="@android:drawable/ic_input_add"
         tools:ignore="ContentDescription"
         android:layout_margin="15sp" />
+
 </LinearLayout>

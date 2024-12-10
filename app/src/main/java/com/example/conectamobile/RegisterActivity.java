@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void guardarInfoUsuario(String userId, String user){
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference ref = db.child("Usuarios:").child(userId);
+        DatabaseReference ref = db.child("Usuarios").child(userId);
 
         HashMap<String, Object> userData = new HashMap<>();
         userData.put("Usuario", user);

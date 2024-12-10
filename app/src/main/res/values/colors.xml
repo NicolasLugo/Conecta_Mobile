@@ -8,4 +8,5 @@
     <color name="receivedColor">#EEEEEE</color> <!-- Gris claro (para mensajes recibidos) -->
     <color name="borderGray">#BBBBBB</color> <!-- Gris para bordes -->
     <color name="pressedGray">#DDDDDD</color>
+    <color name="load_image">#181616</color>
 </resources>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/rounded_background"
+    android:gravity="center">
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/tvModificarUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/modify_contact"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/black" />
+
+    <!-- Campo para el nombre del contacto -->
+    <EditText
+        android:id="@+id/txtNombreContacto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/contact_name"
+        android:inputType="textPersonName"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_border" />
+
+    <!-- Campo para el email del contacto -->
+    <EditText
+        android:id="@+id/txtEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/contact_email"
+        android:inputType="textEmailAddress"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_border" />
+
+    <ImageView
+        android:id="@+id/imgContacto"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_placeholder"
+        android:alpha="0.5"
+        android:contentDescription="Imagen de contacto"
+        android:background="@drawable/rounded_border"
+        android:scaleType="centerCrop" />
+
+    <Button
+        android:id="@+id/btnCargarImagen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/load_image"
+        android:backgroundTint="@color/load_image"
+        android:textColor="@color/white" />
+
+    <!-- Botones -->
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/btnCancelar"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:textColor="@color/primaryColor"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnModificar"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/modify"
+            android:backgroundTint="@color/primaryColor"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</LinearLayout>

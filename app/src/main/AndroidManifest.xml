@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +18,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ConectaMobile"
         tools:targetApi="31">
+        <activity
+            android:name=".EditContactActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NewContactActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ContactListActivity"
+            android:exported="false" />
         <activity
             android:name=".ChatListActivity"
             android:exported="false" />

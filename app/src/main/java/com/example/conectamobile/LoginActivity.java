@@ -15,11 +15,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    DatabaseReference db = FirebaseDatabase.getInstance().getReference("Usuarios");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +59,19 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "Bienvenido a ConectaMobile", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(LoginActivity.this, ChatListActivity.class);
-                            startActivity(i);
-                            finish();
+                            String userId = mAuth.getCurrentUser().getUid();
+                            db.child(userId).child("Usuario").get().addOnCompleteListener(dataTask -> {
+                                if(dataTask.isSuccessful() && dataTask.getResult().exists()){
+                                    String nombreUsuario = dataTask.getResult().getValue(String.class);
+                                    Toast.makeText(LoginActivity.this, "Bienvenido, " + nombreUsuario + "!", Toast.LENGTH_LONG).show();
+                                    Intent i = new Intent(LoginActivity.this, ChatListActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                } else {
+                                    Log.e("Error Login", "Este es dataTask: " + dataTask.getException());
+                                    Toast.makeText(LoginActivity.this, "Error al obtener el nombre del usuario.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         } else {
                             Log.e("Login Error", "Error: ", task.getException());
                             Toast.makeText(LoginActivity.this, "Error: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
