@@ -27,6 +27,7 @@
     <string name="edit_profile">Editar Perfil</string>
     <string name="new_password">Nueva Contraseña</string>
     <string name="cancel">Cancelar</string>
+    <string name="delete">Eliminar</string>
     <string name="add">Agregar</string>
     <string name="save">Guardar</string>
     <string name="load_image">Cargar imagen</string>

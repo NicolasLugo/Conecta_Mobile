@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 public class EditContactActivity extends AppCompatActivity {
     private EditText txtNombreContacto, txtEmail;
-    private Button btnCargarImagen, btnCancelar, btnModificar;
+    private Button btnCargarImagen, btnCancelar, btnModificar, btnEliminar;
     private static final int PICK_IMAGE = 1;
     private Bitmap bitmap;
     private ImageView image;
@@ -44,6 +44,7 @@ public class EditContactActivity extends AppCompatActivity {
         btnCancelar = findViewById(R.id.btnCancelar);
         btnModificar = findViewById(R.id.btnModificar);
         image = findViewById(R.id.imgContacto);
+        btnEliminar = findViewById(R.id.btnEliminar);
 
         Intent i = getIntent();
         String id = i.getStringExtra("contactUid");
@@ -80,17 +81,24 @@ public class EditContactActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                eliminarUsuario(id);
+            }
+        });
     }
 
     private void obtenerCorreo(String userId) {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference ref = db.child("Contactos").child(userId);
+        DatabaseReference ref = db.child("Usuarios").child(userId);
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    String correo = snapshot.child("Correo").getValue(String.class);
+                    String correo = snapshot.child("email").getValue(String.class);
                     if (correo != null) {
                         Intent i = getIntent();
                         String nombreContacto = i.getStringExtra("contactName");
@@ -113,12 +121,9 @@ public class EditContactActivity extends AppCompatActivity {
     }
 
     private void actualizarDatos(String userId, String nuevoCorreo, String nuevoNombre){
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Contactos");
-        HashMap<String, Object> userData = new HashMap<>();
-        //userData.put("Imagen de perfil", image64);
-        userData.put("Correo", nuevoCorreo);
-        userData.put("Nombre", nuevoNombre);
-        db.child(userId).setValue(userData)
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Usuarios");
+        Contacto c = new Contacto(nuevoNombre, nuevoCorreo);
+        db.child(userId).setValue(c)
                 .addOnCompleteListener(EditContactActivity.this, task ->  {
                     if(task.isSuccessful()){
                         Toast.makeText(EditContactActivity.this, "Contacto modificado correctamente", Toast.LENGTH_SHORT).show();
@@ -144,6 +149,20 @@ public class EditContactActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void eliminarUsuario(String userId){
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Usuarios").child(userId);
+        db.removeValue().addOnCompleteListener(task -> {
+           if(task.isSuccessful()){
+               Toast.makeText(this, "Datos eliminados correctamente", Toast.LENGTH_SHORT).show();
+               Log.d("Firebase", "Datos eliminados correctamente.");
+               finish();
+           } else {
+               Toast.makeText(this, "Error al eliminar los datos", Toast.LENGTH_SHORT).show();
+               Log.e("Firebase", "Error al eliminar los datos: ", task.getException());
+           }
+        });
     }
 
 }

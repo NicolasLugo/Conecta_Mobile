@@ -22,7 +22,6 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    DatabaseReference db = FirebaseDatabase.getInstance().getReference("Usuarios");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             String userId = mAuth.getCurrentUser().getUid();
-                            db.child(userId).child("Usuario").get().addOnCompleteListener(dataTask -> {
+                            DatabaseReference db = FirebaseDatabase.getInstance().getReference("Usuarios");
+                            db.child(userId).child("nombre").get().addOnCompleteListener(dataTask -> {
                                 if(dataTask.isSuccessful() && dataTask.getResult().exists()){
                                     String nombreUsuario = dataTask.getResult().getValue(String.class);
                                     Toast.makeText(LoginActivity.this, "Bienvenido, " + nombreUsuario + "!", Toast.LENGTH_LONG).show();

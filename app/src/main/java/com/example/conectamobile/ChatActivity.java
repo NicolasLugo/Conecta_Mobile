@@ -1,22 +1,30 @@
 package com.example.conectamobile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ChatActivity extends AppCompatActivity {
-    private RecyclerView rvMensajes;
-    private EditText txtMensaje;
-    private ImageButton btnEnviar;
-    private TextView tvContacto;
+import java.util.ArrayList;
+import java.util.List;
 
+public class ChatActivity extends AppCompatActivity {
+    private EditText txtMensaje;
+    private MqttManager mqtt;
+    private ArrayList<String> messages;
+    private ArrayAdapter<String> adapter;
+    private RecyclerView rvMensajes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +33,18 @@ public class ChatActivity extends AppCompatActivity {
 
         rvMensajes = findViewById(R.id.rvMensajes);
         txtMensaje = findViewById(R.id.txtMensaje);
-        btnEnviar = findViewById(R.id.btnEnviar);
-        tvContacto = findViewById(R.id.tvContacto);
+        ImageButton btnEnviar = findViewById(R.id.btnEnviar);
+        TextView tvContacto = findViewById(R.id.tvContacto);
+        txtMensaje.requestFocus();
+
+        messages = new ArrayList<>();
+        adapter = new ArrayAdapter<>(this, R.layout.item_message, R.id.tvMessage, messages);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        rvMensajes.setLayoutManager(layoutManager);
+
+
+        mqtt = new MqttManager();
+        mqtt.connect();
 
         Intent i = getIntent();
         String contactName = i.getStringExtra("contactName");
@@ -46,5 +64,46 @@ public class ChatActivity extends AppCompatActivity {
                 Log.d("Datos enviados", "A editContact: " + contactName + " / " + contactUid);
             }
         });
+
+        btnEnviar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                enviarMensaje();
+            }
+        });
+
+        rvMensajes.setAdapter(new RecyclerView.Adapter() {
+            @NonNull
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = adapter.getView(viewType, null, parent);
+                return new RecyclerView.ViewHolder(view) {};
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+                adapter.getView(position, holder.itemView, null);
+            }
+
+            @Override
+            public int getItemCount() {
+                return adapter.getCount();
+            }
+        });
+    }
+
+    private void enviarMensaje(){;
+        String mensaje = txtMensaje.getText().toString();
+
+        if(!mensaje.isEmpty()){
+            mqtt.connectAndPublish("prueba/de/conexion/mqtt/hive/conectamobile", mensaje);
+            txtMensaje.setText("");
+            messages.add(mensaje);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void recuperarChatMqtt(){
+
     }
 }

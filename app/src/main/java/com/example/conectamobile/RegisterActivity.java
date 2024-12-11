@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             String userId = mAuth.getCurrentUser().getUid();
 
-                            guardarInfoUsuario(userId, user);
+                            guardarInfoUsuario(userId, user, email);
                             Toast.makeText(RegisterActivity.this, "Usuario registrado con éxito.", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
                             startActivity(i);
@@ -74,15 +74,13 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    private void guardarInfoUsuario(String userId, String user){
+    private void guardarInfoUsuario(String userId, String user, String email){
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ref = db.child("Usuarios").child(userId);
 
-        HashMap<String, Object> userData = new HashMap<>();
-        userData.put("Usuario", user);
-        userData.put("Correo", mAuth.getCurrentUser().getEmail());
+        Contacto c = new Contacto(user, email);
 
-        ref.setValue(userData)
+        ref.setValue(c)
                 .addOnCompleteListener(this, task ->  {
                     if(task.isSuccessful()){
                         Log.d("Firebase", "Datos de usuario guardados correctamente.");

@@ -26,19 +26,42 @@ android {
             )
         }
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force("org.jetbrains.kotlin:kotlin-stdlib:1.8.22")
+            force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22")
+            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/io.netty.versions.properties",
+                "META-INF/INDEX.LIST",
+                "META-INF/*.kotlin_module"
+            )
+        }
     }
 }
 
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-analytics")
-    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
-    implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
     implementation("com.google.firebase:firebase-auth:22.1.1")
     implementation("com.google.firebase:firebase-database-ktx:21.0.0")
+    implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
+    implementation("com.hivemq:hivemq-mqtt-client:1.3.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

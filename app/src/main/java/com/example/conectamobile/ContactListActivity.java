@@ -68,7 +68,6 @@ public class ContactListActivity extends AppCompatActivity {
 
                 Intent i = new Intent(ContactListActivity.this, ChatActivity.class);
                 i.putExtra("contactName", contacto.getNombre());
-                i.putExtra("contactEmail", contacto.getEmail());
                 i.putExtra("contactUid", contacto.getId());
                 startActivity(i);
             }
@@ -81,7 +80,7 @@ public class ContactListActivity extends AppCompatActivity {
     }
 
     private void listarContactos(){
-        DatabaseReference refContactos = FirebaseDatabase.getInstance().getReference("Contactos");
+        DatabaseReference refContactos = FirebaseDatabase.getInstance().getReference("Usuarios");
         List<Contacto> listAdapter = new ArrayList<>();
         List<Contacto> list = new ArrayList<>();
         ArrayAdapter<Contacto> adaptador = new ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, list);
@@ -93,19 +92,23 @@ public class ContactListActivity extends AppCompatActivity {
                 listAdapter.clear();
                 list.clear();
                 for (DataSnapshot contactoSnapshot : snapshot.getChildren()) {
-                    String id = contactoSnapshot.getKey();
-                    String correo = "";
-                    String nombre = contactoSnapshot.child("Nombre").getValue(String.class);
+                    Contacto c = contactoSnapshot.getValue(Contacto.class);
+                    if(c != null){
+                        String id = contactoSnapshot.getKey();
+                        c.setId(id);
 
-                    Log.d("Firebase", "Datos del contacto: " + contactoSnapshot.getValue());
-                    Log.d("Nombre", "nombre = " + nombre + " / Correo = " + correo);
-
-                    if(nombre != null){
-                        Contacto contactoCompleto = new Contacto(nombre, correo, id);
-                        list.add(contactoCompleto);
-                        Contacto contacto1 = new Contacto(nombre);
-                        listAdapter.add(contacto1);
+                        Log.d("Firebase", "Contacto recibido: " + c.getNombre() + " / Correo: " + c.getEmail() + " / " + id);
                     }
+
+                    String name = c.getNombre();
+                    String email = c.getEmail();
+                    String id = c.getId();
+
+                    Contacto contacto = new Contacto(name, email = "");
+                    Log.d("ContactoAdapter","Objeto para Adapter: " + contacto);
+                    Contacto contactoCompleto = new Contacto(name, email, id);
+                    list.add(contactoCompleto);
+                    Log.d("ContactoCompleto", "Objeto Completo: " + contactoCompleto);
                 }
                 adaptador.notifyDataSetChanged();
             }

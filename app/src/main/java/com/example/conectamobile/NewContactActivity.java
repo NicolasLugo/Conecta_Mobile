@@ -35,7 +35,7 @@ public class NewContactActivity extends AppCompatActivity {
     private ImageView image;
     private Button btnCargarImagen, btnCancelar, btnAgregar;
     private static final int PICK_IMAGE = 1;
-//    private Uri imageUri;
+    //private Uri imageUri;
     private Bitmap bitmap;
 
     @Override
@@ -63,16 +63,16 @@ public class NewContactActivity extends AppCompatActivity {
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String correo = txtEmail.getText().toString();
-                String nombre = txtNombreContacto.getText().toString();
+                String correo = txtEmail.getText().toString().trim();
+                String nombre = txtNombreContacto.getText().toString().trim();
 
-                if (!nombre.isEmpty() && !correo.isEmpty()) {
+                if (!nombre.isEmpty() || !correo.isEmpty()) {
                     //String imagen64 = convertirImagen(bitmap);
                     //String imagen64Comprimido = compressBase64(imagen64);
                     cargarAFirebase(correo, nombre /*, imagen64Comprimido*/);
                     finish();
                 } else {
-                    Toast.makeText(NewContactActivity.this, "Tu perfil debe tener un nombre", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewContactActivity.this, "Completa todos los datos", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -103,15 +103,13 @@ public class NewContactActivity extends AppCompatActivity {
     }
 
     private void cargarAFirebase(String email, String name /*String image64*/){
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Contactos");
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Usuarios");
         String contactId = db.push().getKey();
 
         if(contactId != null){
-            HashMap<String, Object> userData = new HashMap<>();
-            //userData.put("Imagen de perfil", image64);
-            userData.put("Correo", email);
-            userData.put("Nombre", name);
-            db.child(contactId).setValue(userData)
+            Contacto c = new Contacto(name, email);
+
+            db.child(contactId).setValue(c)
                     .addOnCompleteListener(NewContactActivity.this, task ->  {
                         if(task.isSuccessful()){
                             Toast.makeText(NewContactActivity.this, "Contacto agregado correctamente", Toast.LENGTH_SHORT).show();

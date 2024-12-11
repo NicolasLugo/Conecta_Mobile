@@ -45,5 +45,10 @@ public class ChatListActivity extends AppCompatActivity {
     }
 
     private void abrirContacto(){
+        Intent i = new Intent(ChatListActivity.this, ChatActivity.class);
+        startActivity(i);
+
+        //Este metodo tengo que cambiarlo porque la idea es hacer un putExtra que pueda colocar los datos
+        //en el chat cuando lo abra
     }
 }
