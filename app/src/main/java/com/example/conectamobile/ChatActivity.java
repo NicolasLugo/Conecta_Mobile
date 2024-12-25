@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,13 +38,11 @@ public class ChatActivity extends AppCompatActivity {
         txtMensaje = findViewById(R.id.txtMensaje);
         ImageButton btnEnviar = findViewById(R.id.btnEnviar);
         TextView tvContacto = findViewById(R.id.tvContacto);
-        txtMensaje.requestFocus();
 
         messages = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, R.layout.item_message, R.id.tvMessage, messages);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvMensajes.setLayoutManager(layoutManager);
-
 
         mqtt = new MqttManager();
         mqtt.connect();
@@ -93,6 +94,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void enviarMensaje(){;
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Mensajes");
         String mensaje = txtMensaje.getText().toString();
 
         if(!mensaje.isEmpty()){
@@ -101,9 +103,5 @@ public class ChatActivity extends AppCompatActivity {
             messages.add(mensaje);
             adapter.notifyDataSetChanged();
         }
-    }
-
-    private void recuperarChatMqtt(){
-
     }
 }

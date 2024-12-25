@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -53,16 +54,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void iniciarSesion(String email, String passwd){
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
         mAuth.signInWithEmailAndPassword(email, passwd)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             String userId = mAuth.getCurrentUser().getUid();
-                            DatabaseReference db = FirebaseDatabase.getInstance().getReference("Usuarios");
-                            db.child(userId).child("nombre").get().addOnCompleteListener(dataTask -> {
+                            DatabaseReference db = FirebaseDatabase.getInstance().getReference("Administrador");
+                            db.child(userId).get().addOnCompleteListener(dataTask -> {
                                 if(dataTask.isSuccessful() && dataTask.getResult().exists()){
                                     String nombreUsuario = dataTask.getResult().getValue(String.class);
+                                    progressBar.setVisibility(View.GONE);
                                     Toast.makeText(LoginActivity.this, "Bienvenido, " + nombreUsuario + "!", Toast.LENGTH_LONG).show();
                                     Intent i = new Intent(LoginActivity.this, ChatListActivity.class);
                                     startActivity(i);
@@ -74,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                             });
                         } else {
                             Log.e("Login Error", "Error: ", task.getException());
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(LoginActivity.this, "Error: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }

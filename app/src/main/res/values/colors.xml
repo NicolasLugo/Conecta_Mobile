@@ -2,11 +2,11 @@
 <resources>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="primaryColor">#6200EE</color> <!-- Ajusta según tu tema -->
-    <color name="secondaryColor">#03DAC5</color> <!-- Ajusta según tu tema -->
-    <color name="gray">#888888</color> <!-- Ajusta según tu tema -->
-    <color name="receivedColor">#EEEEEE</color> <!-- Gris claro (para mensajes recibidos) -->
-    <color name="borderGray">#BBBBBB</color> <!-- Gris para bordes -->
+    <color name="primaryColor">#6200EE</color>
+    <color name="secondaryColor">#03DAC5</color>
+    <color name="gray">#888888</color>
+    <color name="receivedColor">#EEEEEE</color>
+    <color name="borderGray">#BBBBBB</color>
     <color name="pressedGray">#DDDDDD</color>
     <color name="load_image">#181616</color>
 </resources>

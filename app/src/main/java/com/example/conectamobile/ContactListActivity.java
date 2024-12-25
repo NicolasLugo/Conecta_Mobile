@@ -25,9 +25,10 @@ import java.util.List;
 
 public class ContactListActivity extends AppCompatActivity {
     private SearchView lupa;
-    private TextView vacio;
+    private TextView vacio, sinContactos;
     private ListView listaContactos;
     private FloatingActionButton btnNuevoContacto;
+    private ArrayAdapter<Contacto> adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class ContactListActivity extends AppCompatActivity {
         listaContactos = findViewById(R.id.listaContactos);
         listaContactos.setEmptyView(vacio);
         btnNuevoContacto = findViewById(R.id.btnNuevoContacto);
+        sinContactos = findViewById(R.id.emptyMessage);
 
         btnNuevoContacto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,19 +49,39 @@ public class ContactListActivity extends AppCompatActivity {
             }
         });
 
+        listarContactos();
+
         lupa.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
+            public boolean onQueryTextSubmit(String query) {
+                adaptador.getFilter().filter(query, count -> {
+                    if(count == 0){
+                        sinContactos.setVisibility(View.VISIBLE);
+                        listaContactos.setVisibility(View.GONE);
+                        vacio.setVisibility(View.GONE);
+                    } else {
+                        sinContactos.setVisibility(View.GONE);
+                        listaContactos.setVisibility(View.VISIBLE);
+                    }
+                });
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
+            public boolean onQueryTextChange(String newText) {
+                adaptador.getFilter().filter(newText, count -> {
+                    if(count == 0){
+                        sinContactos.setVisibility(View.VISIBLE);
+                        vacio.setVisibility(View.GONE);
+                        listaContactos.setVisibility(View.GONE);
+                    } else {
+                        sinContactos.setVisibility(View.GONE);
+                        listaContactos.setVisibility(View.VISIBLE);
+                    }
+                });
                 return false;
             }
         });
-
-        listarContactos();
 
         listaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -83,7 +105,7 @@ public class ContactListActivity extends AppCompatActivity {
         DatabaseReference refContactos = FirebaseDatabase.getInstance().getReference("Usuarios");
         List<Contacto> listAdapter = new ArrayList<>();
         List<Contacto> list = new ArrayList<>();
-        ArrayAdapter<Contacto> adaptador = new ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, list);
+        adaptador = new ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, list);
         listaContactos.setAdapter(adaptador);
 
         refContactos.addValueEventListener(new ValueEventListener() {

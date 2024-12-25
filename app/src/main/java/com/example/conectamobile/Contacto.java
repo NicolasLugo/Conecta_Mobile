@@ -4,18 +4,12 @@ public class Contacto {
     private String nombre;
     private String email;
     private String Id;
+    //private int imagenPerfil;
 
     public Contacto(String nombre, String email, String id) {
         this.nombre = nombre;
         this.email = email;
-        this.Id = id;
-    }
-
-    public Contacto() {
-    }
-
-    public Contacto(String nombre) {
-        this.nombre = nombre;
+        Id = id;
     }
 
     public Contacto(String nombre, String email) {
@@ -25,10 +19,6 @@ public class Contacto {
 
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getEmail() {

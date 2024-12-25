@@ -29,9 +29,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
+        android:textStyle="bold"
         android:text="Agrega tu primer contacto ahora!"
         android:gravity="center"
         android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/emptyMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="No hay contactos con esta información"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp" />
 
     <ListView
         android:id="@+id/listaContactos"

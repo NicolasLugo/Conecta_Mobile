@@ -17,6 +17,13 @@
         android:layout_gravity="center"
         android:layout_marginBottom="8dp" />
 
+    <SearchView
+        android:id="@+id/lupa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="@string/search_contact"
+        android:layout_marginBottom="8dp" />
+
     <TextView
         android:id="@+id/vacio"
         android:layout_width="match_parent"

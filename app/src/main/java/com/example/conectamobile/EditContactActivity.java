@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
@@ -152,17 +153,31 @@ public class EditContactActivity extends AppCompatActivity {
     }
 
     private void eliminarUsuario(String userId){
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Usuarios").child(userId);
-        db.removeValue().addOnCompleteListener(task -> {
-           if(task.isSuccessful()){
-               Toast.makeText(this, "Datos eliminados correctamente", Toast.LENGTH_SHORT).show();
-               Log.d("Firebase", "Datos eliminados correctamente.");
-               finish();
-           } else {
-               Toast.makeText(this, "Error al eliminar los datos", Toast.LENGTH_SHORT).show();
-               Log.e("Firebase", "Error al eliminar los datos: ", task.getException());
-           }
-        });
-    }
+        AlertDialog.Builder alerta = new AlertDialog.Builder(EditContactActivity.this);
+        alerta.setTitle("Eliminar");
+        alerta.setMessage("Está seguro de eliminar este contacto? se eliminará de la base de datos");
 
+        alerta.setPositiveButton("Sí", (dialog, which) -> {
+            DatabaseReference db = FirebaseDatabase.getInstance().getReference("Usuarios").child(userId);
+            db.removeValue().addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    Toast.makeText(this, "Datos eliminados correctamente", Toast.LENGTH_SHORT).show();
+                    Log.d("Firebase", "Datos eliminados correctamente.");
+                    Intent i = new Intent(EditContactActivity.this, ContactListActivity.class);
+                    startActivity(i);
+                    finish();
+                } else {
+                    Toast.makeText(this, "Error al eliminar los datos", Toast.LENGTH_SHORT).show();
+                    Log.e("Firebase", "Error al eliminar los datos: ", task.getException());
+                }
+            });
+        });
+
+        alerta.setNegativeButton("No", (dialog, which) ->{
+            dialog.dismiss();
+        });
+
+        AlertDialog dialog = alerta.create();
+        dialog.show();
+    }
 }
